@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.text.Html;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.model.smartplaylist.AbsSmartPlaylist;
@@ -38,11 +39,14 @@ public class ClearSmartPlaylistDialog extends DialogFragment {
                 .content(content)
                 .positiveText(R.string.clear_action)
                 .negativeText(android.R.string.cancel)
-                .onPositive((dialog, which) -> {
-                    if (getActivity() == null) {
-                        return;
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if (getActivity() == null) {
+                            return;
+                        }
+                        playlist.clear(getActivity());
                     }
-                    playlist.clear(getActivity());
                 })
                 .build();
     }
